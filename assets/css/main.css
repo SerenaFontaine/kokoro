@@ -173,7 +173,7 @@ body {
 .btn-icon:hover { color: var(--accent); background: var(--bg-muted); }
 .btn-icon:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 
-.dark .icon-sun { display: none; }
+.dark .icon-sun { display: block; }
 .dark .icon-moon { display: none; }
 :not(.dark) .icon-moon { display: none; }
 

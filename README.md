@@ -29,9 +29,13 @@ theme = "kokoro"
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+
+[markup.highlight]
+  noClasses = false
 ```
 
 The JSON output is required for search.
+`noClasses = false` is recommended so theme CSS controls syntax colors in light/dark mode.
 
 ## Configuration
 
