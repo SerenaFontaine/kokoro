@@ -752,9 +752,14 @@ body {
   justify-content: center;
   padding: 10vh 1rem 0;
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
 }
 .search-modal[aria-hidden="false"] {
   pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
 }
 
 .search-backdrop {
