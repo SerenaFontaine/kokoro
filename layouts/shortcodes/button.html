@@ -1,0 +1,4 @@
+{{ $url := .Get "url" | default .Get 0 }}
+{{ $text := .Get "text" | default .Inner }}
+{{ $type := default "primary" (.Get "type") }}
+<a href="{{ $url }}" class="btn btn-{{ $type }}">{{ $text }}</a>

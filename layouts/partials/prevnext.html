@@ -1,0 +1,46 @@
+{{ $docsSection := default "docs" .Site.Params.docs.section }}
+{{ $docs := .Site.GetPage $docsSection }}
+{{ $ordered := slice }}
+{{ if $docs }}
+  {{ range $docs.Pages.ByWeight }}
+    {{ if .IsSection }}
+      {{ range .Pages.ByWeight }}
+        {{ if not .IsSection }}{{ $ordered = $ordered | append . }}{{ end }}
+      {{ end }}
+    {{ else }}
+      {{ $ordered = $ordered | append . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $prev := false }}
+{{ $next := false }}
+{{ $found := false }}
+{{ range $ordered }}
+  {{ if $found }}
+    {{ $next = . }}
+    {{ break }}
+  {{ end }}
+  {{ if eq . $ }}
+    {{ $found = true }}
+  {{ else }}
+    {{ $prev = . }}
+  {{ end }}
+{{ end }}
+
+{{ if or $prev $next }}
+  <nav class="prevnext" aria-label="Documentation navigation">
+    <div class="prevnext-inner">
+      {{ with $prev }}
+        <a href="{{ .RelPermalink }}" class="prevnext-link prev">← {{ .Title }}</a>
+      {{ else }}
+        <span class="prevnext-placeholder"></span>
+      {{ end }}
+      {{ with $next }}
+        <a href="{{ .RelPermalink }}" class="prevnext-link next">{{ .Title }} →</a>
+      {{ else }}
+        <span class="prevnext-placeholder"></span>
+      {{ end }}
+    </div>
+  </nav>
+{{ end }}

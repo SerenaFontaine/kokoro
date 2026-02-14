@@ -1,0 +1,12 @@
+[
+  {{ $list := where .Site.RegularPages "Section" "!=" "" }}
+  {{ $len := len $list }}
+  {{ range $i, $p := $list }}
+    {
+      "uri": {{ $p.RelPermalink | jsonify }},
+      "title": {{ $p.Title | jsonify }},
+      "section": {{ $p.Section | jsonify }},
+      "content": {{ (replaceRE `\s+` " " (plainify $p.Plain)) | jsonify }}
+    }{{ if lt (add $i 1) $len }},{{ end }}
+  {{ end }}
+]

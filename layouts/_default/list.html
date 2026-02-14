@@ -1,0 +1,31 @@
+{{ define "main" }}
+  <div class="kokoro-content kokoro-list">
+    <header class="content-header">
+      <h1 class="content-title">{{ .Title }}</h1>
+      {{ with .Param "subtitle" }}<p class="content-subtitle">{{ . }}</p>{{ end }}
+      {{ with .Content }}<div class="content-body">{{ . }}</div>{{ end }}
+    </header>
+
+    {{ if in (slice "blog" "posts") .Section }}
+      <div class="kokoro-posts">
+        {{ range .Paginator.Pages }}
+          <article class="kokoro-post-card">
+            <h2 class="post-card-title">
+              <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            </h2>
+            <div class="post-card-meta">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+              {{ with .Param "author" }}<span class="author">by {{ . }}</span>{{ end }}
+            </div>
+            {{ with .Summary }}
+              <p class="post-card-summary">{{ . }}</p>
+            {{ end }}
+          </article>
+        {{ end }}
+      </div>
+      {{ template "_internal/pagination.html" . }}
+    {{ else }}
+      {{ partial "section-cards.html" . }}
+    {{ end }}
+  </div>
+{{ end }}

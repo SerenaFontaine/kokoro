@@ -1,0 +1,18 @@
+{{ $lang := .Type }}
+{{ $filename := "" }}
+{{ with .Attributes.filename }}{{ $filename = . }}{{ end }}
+{{ $code := .Inner }}
+<div class="chroma-wrap">
+  {{ if or $filename $lang }}
+    <div class="chroma-header">
+      {{ if $filename }}<span class="chroma-filename">{{ $filename }}</span>{{ else }}{{ if $lang }}<span class="chroma-lang">{{ $lang }}</span>{{ end }}{{ end }}
+      <button type="button" class="btn-copy" data-copy-target aria-label="Copy code">Copy</button>
+    </div>
+  {{ else }}
+    <div class="chroma-header chroma-header-minimal">
+      <span></span>
+      <button type="button" class="btn-copy" data-copy-target aria-label="Copy code">Copy</button>
+    </div>
+  {{ end }}
+  {{ highlight $code $lang "linenos=false" }}
+</div>

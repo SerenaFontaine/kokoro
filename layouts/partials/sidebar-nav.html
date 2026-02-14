@@ -1,0 +1,29 @@
+{{ $current := .current }}
+{{ $collapsible := .collapsible }}
+{{ $section := .section }}
+{{ $isAncestor := $current.IsDescendant $section }}
+{{ $isCurrent := eq $current $section }}
+
+{{ if $section.Pages }}
+  <ul class="sidebar-nav-list {{ if or $isCurrent $isAncestor }}is-expanded{{ end }}">
+    {{ range $section.Pages }}
+      {{ if .IsSection }}
+        {{ $childIsCurrent := eq $current . }}
+        {{ $childIsAncestor := $current.IsDescendant . }}
+        <li class="sidebar-nav-item has-children {{ if or $childIsCurrent $childIsAncestor }}is-expanded{{ end }}">
+          {{ if $collapsible }}
+            <button type="button" class="sidebar-nav-toggle" aria-expanded="{{ or $childIsCurrent $childIsAncestor }}" data-nav-toggle>
+              <span class="nav-toggle-icon"></span>
+            </button>
+          {{ end }}
+          <a href="{{ .RelPermalink }}" class="sidebar-nav-link {{ if eq $current . }}is-current{{ end }}">{{ .Title }}</a>
+          {{ partial "sidebar-nav.html" (dict "context" $current "section" . "collapsible" $collapsible "current" $current) }}
+        </li>
+      {{ else }}
+        <li class="sidebar-nav-item">
+          <a href="{{ .RelPermalink }}" class="sidebar-nav-link {{ if eq $current . }}is-current{{ end }}">{{ .Title }}</a>
+        </li>
+      {{ end }}
+    {{ end }}
+  </ul>
+{{ end }}

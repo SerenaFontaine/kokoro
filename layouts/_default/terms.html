@@ -1,0 +1,18 @@
+{{ define "main" }}
+  <div class="kokoro-content kokoro-terms">
+    <header class="content-header">
+      <h1 class="content-title">{{ .Title }}</h1>
+    </header>
+    <div class="content-body">
+      {{ .Content }}
+    </div>
+    <ul class="terms-list">
+      {{ range .Data.Terms.Alphabetical }}
+        <li>
+          <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+          <span class="term-count">({{ .Count }})</span>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+{{ end }}

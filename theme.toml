@@ -1,0 +1,11 @@
+name = "kokoro"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A cozy, Ubuntu-inspired Hugo theme with Mocha tones—optimized for documentation but capable of powering content sites."
+homepage = "https://github.com/kokoro/kokoro"
+tags = ["documentation", "blog", "minimal", "responsive", "accessibility"]
+features = ["docs", "blog", "search", "dark-mode", "responsive"]
+min_version = "0.115.0"
+
+[author]
+name = "Kokoro"

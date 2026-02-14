@@ -1,0 +1,14 @@
+<footer class="kokoro-footer" role="contentinfo">
+  <div class="footer-inner">
+    {{ with .Site.Params.footer.text }}
+      <p class="footer-text">{{ . | markdownify }}</p>
+    {{ end }}
+    {{ with .Site.Params.repo.url }}
+      {{ if $.File }}
+        {{ $editPath := default "edit/main" $.Site.Params.repo.editPath }}
+        {{ $editUrl := printf "%s/%s/%s" (trim . "/") $editPath $.File.Path }}
+        <a href="{{ $editUrl }}" class="footer-link">Edit this page</a>
+      {{ end }}
+    {{ end }}
+  </div>
+</footer>

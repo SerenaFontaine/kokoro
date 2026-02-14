@@ -1,0 +1,13 @@
+{{/* Format: each line = title|url|description (description optional) */}}
+{{ $lines := split (strings.Trim .Inner "\n") "\n" }}
+<div class="cards-grid">
+  {{ range $lines }}
+    {{ $parts := split . "|" }}
+    {{ if ge (len $parts) 2 }}
+      <a href="{{ trim (index $parts 1) " " }}" class="section-card">
+        <h2 class="section-card-title">{{ trim (index $parts 0) " " }}</h2>
+        {{ with index $parts 2 }}<p class="section-card-summary">{{ trim . " " }}</p>{{ end }}
+      </a>
+    {{ end }}
+  {{ end }}
+</div>

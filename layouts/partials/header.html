@@ -1,0 +1,46 @@
+<header class="kokoro-header" role="banner">
+  <div class="header-inner">
+    <a href="{{ .Site.BaseURL }}" class="brand-link" aria-label="Home">
+      {{ with .Site.Params.brand.logo }}
+        <img src="{{ . }}" alt="" class="brand-logo">
+      {{ else }}
+        <span class="brand-name">{{ default .Site.Title .Site.Params.brand.name }}</span>
+      {{ end }}
+    </a>
+
+    <nav class="header-nav" aria-label="Main">
+      {{ $docsSection := default "docs" .Site.Params.docs.section }}
+      {{ with .Site.GetPage (printf "/%s" $docsSection) }}
+        <a href="{{ .RelPermalink }}" class="nav-link">{{ .Title }}</a>
+      {{ end }}
+      {{ with .Site.GetPage "/blog" }}
+        <a href="{{ .RelPermalink }}" class="nav-link">Blog</a>
+      {{ end }}
+      {{ with .Site.GetPage "/about" }}
+        <a href="{{ .RelPermalink }}" class="nav-link">About</a>
+      {{ end }}
+    </nav>
+
+    <div class="header-actions">
+      {{ if default true .Site.Params.search.enabled }}
+        <button type="button" class="btn-icon btn-search" aria-label="Search (Ctrl+K)" data-search-trigger title="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      {{ end }}
+      <button type="button" class="btn-icon btn-theme" aria-label="Toggle theme" data-theme-toggle title="Toggle dark/light mode">
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      {{ $docsSection := default "docs" .Site.Params.docs.section }}
+      {{ $sidebarEnabled := default true .Site.Params.docs.sidebar.enabled }}
+      {{ $showSidebar := and (eq .Section $docsSection) $sidebarEnabled (ne (.Param "sidebar") false) }}
+      {{ if $showSidebar }}
+        <button type="button" class="btn-icon btn-sidebar-toggle" aria-label="Toggle sidebar" data-sidebar-toggle>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      {{ else }}
+        <span aria-hidden="true"></span>
+      {{ end }}
+    </div>
+  </div>
+</header>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}" class="no-js">
+<head>
+  {{ partial "head.html" . }}
+</head>
+{{ $docsSection := default "docs" .Site.Params.docs.section }}
+{{ $sidebarEnabled := default true .Site.Params.docs.sidebar.enabled }}
+{{ $showSidebar := and (eq .Section $docsSection) $sidebarEnabled (ne (.Param "sidebar") false) }}
+{{ $showToc := or (eq (.Param "toc") true) (and (eq .Section $docsSection) (ne (.Param "toc") false) (default true .Site.Params.docs.toc.enabled)) }}
+<body class="kokoro {{ .Kind }} {{ .Section }} {{ if $showSidebar }}has-sidebar{{ end }} {{ if and $showToc (ge (len .TableOfContents) 50) }}has-toc{{ end }}" id="top">
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  {{ partial "header.html" . }}
+
+  <div class="kokoro-body">
+    {{ if $showSidebar }}
+      {{ partial "sidebar.html" . }}
+    {{ end }}
+
+    <main id="main" class="kokoro-main" role="main">
+      {{ block "main" . }}{{ end }}
+    </main>
+
+    {{ if and $showToc (ge (len .TableOfContents) 50) }}
+      {{ partial "toc.html" . }}
+    {{ end }}
+  </div>
+
+  {{ partial "footer.html" . }}
+
+  {{ if default true .Site.Params.search.enabled }}
+    {{ partial "search.html" . }}
+  {{ end }}
+
+  {{ $js := resources.Get "js/main.js" | js.Build | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+  {{ if default true .Site.Params.search.enabled }}
+    {{ $searchJs := resources.Get "js/search.js" | js.Build | minify | fingerprint }}
+    <script src="{{ $searchJs.RelPermalink }}" integrity="{{ $searchJs.Data.Integrity }}" defer></script>
+  {{ end }}
+</body>
+</html>

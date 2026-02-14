@@ -1,0 +1,19 @@
+{{ $pages := (.Paginator 12).Pages }}
+{{ if not $pages }}{{ $pages = .Pages }}{{ end }}
+<div class="section-cards">
+  {{ range $pages }}
+    {{ if .IsSection }}
+      <a href="{{ .RelPermalink }}" class="section-card">
+        <h2 class="section-card-title">{{ .Title }}</h2>
+        {{ with .Param "subtitle" }}<p class="section-card-desc">{{ . }}</p>{{ end }}
+        {{ with .Summary }}<p class="section-card-summary">{{ truncate 120 . }}</p>{{ end }}
+      </a>
+    {{ else }}
+      <a href="{{ .RelPermalink }}" class="section-card">
+        <h2 class="section-card-title">{{ .Title }}</h2>
+        {{ with .Param "subtitle" }}<p class="section-card-desc">{{ . }}</p>{{ end }}
+        {{ with .Summary }}<p class="section-card-summary">{{ truncate 120 . }}</p>{{ end }}
+      </a>
+    {{ end }}
+  {{ end }}
+</div>

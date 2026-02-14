@@ -1,0 +1,23 @@
+{{ define "main" }}
+  <article class="kokoro-content kokoro-single" role="article">
+    {{ partial "breadcrumbs.html" . }}
+    <header class="content-header">
+      <h1 class="content-title">{{ .Title }}</h1>
+      {{ with .Param "subtitle" }}<p class="content-subtitle">{{ . }}</p>{{ end }}
+      {{ if in (slice "blog" "posts") .Section }}
+        <div class="content-meta">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+          {{ with .Param "author" }}<span class="author">by {{ . }}</span>{{ end }}
+        </div>
+      {{ end }}
+    </header>
+
+    <div class="content-body">
+      {{ .Content }}
+    </div>
+
+    {{ if and (or (eq .Section "docs") (eq .Section (default "docs" .Site.Params.docs.section))) (default true .Site.Params.docs.prevnext) }}
+      {{ partial "prevnext.html" . }}
+    {{ end }}
+  </article>
+{{ end }}
