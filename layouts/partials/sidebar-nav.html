@@ -10,14 +10,17 @@
       {{ if .IsSection }}
         {{ $childIsCurrent := eq $current . }}
         {{ $childIsAncestor := $current.IsDescendant . }}
-        <li class="sidebar-nav-item has-children {{ if or $childIsCurrent $childIsAncestor }}is-expanded{{ end }}">
-          {{ if $collapsible }}
+        {{ $hasChildren := gt (len .Pages) 0 }}
+        <li class="sidebar-nav-item {{ if $hasChildren }}has-children{{ end }} {{ if and $hasChildren (or $childIsCurrent $childIsAncestor) }}is-expanded{{ end }}">
+          {{ if and $collapsible $hasChildren }}
             <button type="button" class="sidebar-nav-toggle" aria-expanded="{{ or $childIsCurrent $childIsAncestor }}" data-nav-toggle>
               <span class="nav-toggle-icon"></span>
             </button>
           {{ end }}
           <a href="{{ .RelPermalink }}" class="sidebar-nav-link {{ if eq $current . }}is-current{{ end }}">{{ .Title }}</a>
-          {{ partial "sidebar-nav.html" (dict "context" $current "section" . "collapsible" $collapsible "current" $current) }}
+          {{ if $hasChildren }}
+            {{ partial "sidebar-nav.html" (dict "context" $current "section" . "collapsible" $collapsible "current" $current) }}
+          {{ end }}
         </li>
       {{ else }}
         <li class="sidebar-nav-item">
